@@ -1,15 +1,16 @@
 FROM alpine:3.12
-# use the CDN mirror from gilderlabs since its much faster
+LABEL maintainer="Robin Opletal"
+ENV container=docker
 
 ENV pip_packages "ansible"
 
 RUN mkdir -p /etc/apk &&\
-# Add main repo
+# Add the main repo
     echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/main" > /etc/apk/repositories &&\
-# Add community repo
+# Add the community repo
     echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories &&\
     cat /etc/apk/repositories &&\
-# Install openrc
+# Install OpenRC
     apk -U upgrade && apk add openrc &&\
 # Tell openrc its running inside a container, till now that has meant LXC
     sed -i 's/#rc_sys=""/rc_sys="lxc"/g' /etc/rc.conf &&\
@@ -19,12 +20,6 @@ RUN mkdir -p /etc/apk &&\
     sed -i 's/^#\(rc_logger="YES"\)$/\1/' /etc/rc.conf &&\
 # can't set hostname since docker sets it
     sed -i 's/hostname $opts/# hostname $opts/g' /etc/init.d/hostname &&\
-# can't do cgroups
-#    sed -i 's/cgroup_add_service /# cgroup_add_service /g' /lib/rc/sh/openrc-run.sh &&\
-# can't mount tmpfs since not privileged
-#    sed -i 's/mount -t tmpfs/# mount -t tmpfs/g' /lib/rc/sh/init.sh &&\
-# can't get ttys unless you run the container in privileged mode
-#    sed -i '/tty/d' /etc/inittab &&\
 # clean apk cache
     rm -rf /var/cache/apk/*
 

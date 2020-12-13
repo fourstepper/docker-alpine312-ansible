@@ -27,6 +27,6 @@ This image is built on Docker Hub automatically any time the upstream OS contain
 
 ## Notes
 
-I use Docker to test my Ansible roles and playbooks on multiple OSes using CI tools like Jenkins, Travis and GitLab CI. This container allows me to test roles and playbooks using Ansible running locally inside the container.
+I use Docker to test my Ansible roles and playbooks on multiple OSes using CI tools like Jenkins, Github Actions and GitLab CI. This container allows me to test roles and playbooks using Ansible running locally inside the container.
 
 > **Important Note**: I use this image for testing in an isolated environment—not for production—and the settings and configuration used may not be suitable for a secure and performant production environment. Use on production servers/in the wild at your own risk!
